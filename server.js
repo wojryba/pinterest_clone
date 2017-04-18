@@ -3,7 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-require('dotenv').config();const port = process.env.PORT || 3000;
+require('dotenv').config();
+
+const port = process.env.PORT || 3000;
 
 const connect = process.env.MONGODB_URI || "mongodb://localhost/pinterest"
 
@@ -18,7 +20,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 //setting the routes
 const api = require('./api')
