@@ -96,4 +96,13 @@ router.post('/likePic', authCheck, (req, res) => {
   })
 })
 
+router.post('/findUser', (req, res) => {
+  User.findById(req.body.id).populate('images').exec((err, user) => {
+      if (err) {
+        return res.status(400).send(err);
+      };
+      return res.send(user);
+  })
+})
+
 module.exports = router;
