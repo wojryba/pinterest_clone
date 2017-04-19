@@ -38,16 +38,19 @@ router.get('/getMyPics', authCheck, (req, res) => {
   User.find({user: req.user.sub}).populate('images').exec((err, user) => {
       if (err) {
         return res.status(400).send(err);
-      };
+      }
+      user[0].images = user[0].images.sort(function(a, b) {
+        return parseFloat(a.time) - parseFloat(b.time);
+      });
       return res.send(user);
   })
 });
 
 router.get('/getAllPics', (req, res) => {
-  Img.find({}).populate('creator').exec((err, users) => {
+  Img.find({}).sort({time: 1}).populate('creator').exec((err, users) => {
       if (err) {
         return res.status(400).send(err);
-      };
+      }
       return res.send(users);
   })
 })
@@ -55,13 +58,13 @@ router.get('/getAllPics', (req, res) => {
 router.post('/deletePic', authCheck, (req, res) => {
   Img.findByIdAndRemove(req.body.pic, (err) => {
     if (err) {
-      console.log(err);
+      return res.status(400).send(err);
     }
   });
   User.findOne({user: req.user.sub}, (err, user) => {
     if (err) {
       return res.status(400).send(err)
-    };
+    }
 
     user.images = user.images.filter(val => {
       if (val != req.body.pic) {
@@ -78,7 +81,7 @@ router.post('/likePic', authCheck, (req, res) => {
   Img.findById(req.body.pic, (err, img) => {
     if (err) {
       return res.status(400).send(err)
-    };
+    }
 
     if (img.likes.includes(req.user.sub)) {
       img.likes = img.likes.filter( i => {
@@ -88,7 +91,7 @@ router.post('/likePic', authCheck, (req, res) => {
       });
     } else {
       img.likes.push(req.user.sub);
-    };
+    }
 
     img.save().then(() => {
       res.send(img.likes);
@@ -100,7 +103,7 @@ router.post('/findUser', (req, res) => {
   User.findById(req.body.id).populate('images').exec((err, user) => {
       if (err) {
         return res.status(400).send(err);
-      };
+      }
       return res.send(user);
   })
 })
