@@ -39,9 +39,12 @@ router.get('/getMyPics', authCheck, (req, res) => {
       if (err) {
         return res.status(400).send(err);
       }
-      user[0].images = user[0].images.sort(function(a, b) {
-        return parseFloat(a.time) - parseFloat(b.time);
-      });
+      if (user[0]) {
+        user[0].images = user[0].images.sort(function(a, b) {
+          return parseFloat(a.time) - parseFloat(b.time);
+        });
+      }
+
       return res.send(user);
   })
 });

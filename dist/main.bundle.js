@@ -289,9 +289,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MyPicsComponent = (function () {
-    function MyPicsComponent(api) {
+    function MyPicsComponent(api, ref) {
         this.api = api;
-        this.images = false;
+        this.ref = ref;
+        this.user = [];
+        this.images = [];
         this.myOptions = {
             gutter: 10,
             columnWidth: 2,
@@ -304,12 +306,15 @@ var MyPicsComponent = (function () {
             _this.handleSocet(data);
         });
         this.api.getMyPics().subscribe(function (response) {
+            console.log(response);
             var pics = JSON.parse(response['_body']);
-            _this.images = pics[0].images;
-            _this.user = {
-                nick: pics[0].nick,
-                picture: pics[0].picture
-            };
+            if (pics.length !== 0) {
+                _this.images = pics[0].images;
+                _this.user = {
+                    nick: pics[0].nick,
+                    picture: pics[0].picture
+                };
+            }
         }, function (error) { return console.log(error); });
     };
     MyPicsComponent.prototype.ngOnDestroy = function () {
@@ -320,6 +325,10 @@ var MyPicsComponent = (function () {
         if (data.type === 'addPic') {
             if (this.images) {
                 this.images.push(data.pic);
+                this.user = {
+                    nick: data.user.nickname,
+                    picture: data.user.picture
+                };
             }
         }
         else if (data.type === 'deletePic') {
@@ -363,10 +372,10 @@ MyPicsComponent = __decorate([
         template: __webpack_require__(221),
         styles: [__webpack_require__(208)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_api_service__["a" /* ApiService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_api_service__["a" /* ApiService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_api_service__["a" /* ApiService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_api_service__["a" /* ApiService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"]) === "function" && _b || Object])
 ], MyPicsComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=my-pics.component.js.map
 
 /***/ }),
