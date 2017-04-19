@@ -500,6 +500,44 @@ var UserComponent = (function () {
         };
     }
     UserComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.connection = this.api.Sockets().subscribe(function (data) {
+            _this.handleSocet(data);
+        });
+    };
+    UserComponent.prototype.handleSocet = function (data) {
+        if (data.type === 'deletePic') {
+            this.images = this.images.filter(function (img) {
+                if (img._id !== data.pic._id) {
+                    return img;
+                }
+            });
+        }
+        else if (data.type === 'addPic') {
+            data.pic.creator = {
+                nick: data.user.nickname,
+                picture: data.user.picture,
+                user_id: data.user.user_id
+            };
+            this.images.push(data.pic);
+        }
+        else if (data.type === 'like') {
+            var j = this.images.findIndex(function (val) {
+                if (val._id === data.pic._id) {
+                    return val;
+                }
+            });
+            this.images[j].likes = data.pic.likes;
+        }
+    };
+    UserComponent.prototype.like = function (i) {
+        var _this = this;
+        var pic = this.images[i];
+        this.api.likePic(pic._id).subscribe(function (response) {
+            var likes = JSON.parse(response['_body']);
+            pic.likes = likes;
+            _this.api.changeLike(pic);
+        }, function (error) { return console.log(error); });
     };
     UserComponent.prototype.onClick = function () {
         this.router.navigate(['']);
