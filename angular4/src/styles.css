@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    margin: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.grid-item {
+  width: 200px;
+  margin: 1%;
+  padding: 1%;
+  border-radius: 3%;
+}
+
+.image {
+  margin-bottom: 2%;
+}
+
+.grid-item:hover {
+  background-color: #fafafa;
+  box-shadow: 9px 7px 30px -10px rgba(105,103,107,1);
+}
+
+.image img {
+  height: auto;
+  width: 100%;
+}
+
+.user {
+  text-align: center;
+}
+
+.user i {
+  clear: none;
+  margin-top: 7%;
+}
+
+.user i:hover {
+  box-shadow: 9px 7px 30px -10px rgba(105,103,107,1);
+}
+
+.user button {
+  margin-top: 5%;
+  float: right;
+}
+
+.user img {
+  float:left;
+  height: auto;
+  width: 25%;
+}
+
+.user p {
+  clear: both;
+  float:left;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+}
+
+@media (max-width: 460px) {
+  html {
+    text-align: center;
+  }
+
+  .brick {
+    text-align: center;
+  }
+
+  .grid-item {
+    width: 90%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .dropdown-content {
+    width: 100%;
+  }
+}

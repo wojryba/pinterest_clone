@@ -1,0 +1,18 @@
+<masonry *ngIf="images && images.length !== 0; else noImages" [options]="myOptions" [useImagesLoaded]="true">
+  <masonry-brick class="brick" *ngFor="let img of images, let i = index">
+    <div class="grid-item">
+      <div class="image">
+        <img src={{img.url}} onError="this.src='../../../assets/placeholder.png';"/>
+      </div>
+      <div class="user">
+        <h4>{{img.description}}</h4>
+        <img (click)="userClick(i)" src={{img.creator.picture}}  />
+        <button class="btn btn-default" (click)="like(i)"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+          {{img.likes.length}}</button>
+          <p (click)="userClick(i)">{{img.creator.nick}}</p> 
+      </div>
+    </div>
+  </masonry-brick>
+</masonry>
+
+<ng-template #noImages><h1 class="user">There are no pics yet!</h1></ng-template>

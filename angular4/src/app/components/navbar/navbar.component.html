@@ -1,0 +1,32 @@
+<div class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/']" class="navbar-brand">Pinterest Clone</a>
+    </div>
+
+    <div>
+      <ul class="nav navbar-nav navbar-right">
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" *ngIf="auth.authenticated()"><a [routerLink]="['/']">All</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" *ngIf="auth.authenticated()"><a [routerLink]="['/myPics']">My Pics</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" class="dropdown" *ngIf="auth.authenticated()"><a (click)="dropdownChange()">Add a Pic</a>
+          <div class="dropdown-content" *ngIf="dropdown" [@enterAnimation]>
+            <form class="form-group" novalidate [formGroup]="form" (ngSubmit)="onSubmit(form)">
+              <label class="control-label">Image Url:
+                <input class="form-control"  type="text" formControlName="Url" />
+                <p *ngIf="form.get('Url').touched && form.get('Url').hasError('required')">You need to input some Url</p>
+              </label>
+              <label class="control-label">Description:
+                <input class="form-control" type="text" formControlName="Description"/>
+              </label>
+              <br />
+              <button class="btn btn-info" [disabled]="form.invalid || disable" type="Submit">ADD</button>
+            </form>
+            <flash-messages></flash-messages>
+          </div>
+        </li>
+        <li><button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button></li>
+        <li><button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button></li>
+      </ul>
+    </div>
+  </div>
+</div>
